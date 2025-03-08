@@ -23,14 +23,54 @@ int my_puts(char *s)
 int my_printf(const char *format, ...)
 {
     va_list args;
-    va_start(args, *format);
+    va_start(args, format); // *format ではなく format を渡す
 
     while (*format)
     {
         if (*format == '%')
         {
             format++;
-            if (*format == 's')
+            if (*format == 'd') // %d の処理
+            {
+                char buffer[12]; // 数値のバッファ
+                int num = va_arg(args, int);
+                int i = 0, is_negative = 0;
+
+                // 0 の処理（そのまま '0' を格納）
+                if (num == 0)
+                {
+                    buffer[i++] = '0';
+                }
+                else
+                {
+                    // 負の数の処理
+                    if (num < 0)
+                    {
+                        is_negative = 1;
+                        num = -num;
+                    }
+
+                    // 数値を文字列に変換
+                    while (num)
+                    {
+                        buffer[i++] = (num % 10) + '0';
+                        num /= 10;
+                    }
+
+                    // 負の数なら '-' を追加
+                    if (is_negative)
+                    {
+                        buffer[i++] = '-';
+                    }
+                }
+
+                // 逆順に出力
+                while (i--)
+                {
+                    my_putchar(buffer[i]);
+                }
+            }
+            else if (*format == 's') // %s の処理
             {
                 char *str = va_arg(args, char *);
                 while (*str)
@@ -38,24 +78,6 @@ int my_printf(const char *format, ...)
                     my_putchar(*str);
                     str++;
                 }
-            }
-        }
-        else if (*format == 'd')
-        {
-            int buffer[12];
-            int num = va_arg(args, int);
-            int i = 0;
-
-            num++;
-            while (num)
-            {
-                buffer[i++] = (num % 10) + '0';
-                num /= 10;
-            }
-
-            while (i--)
-            {
-                my_putchar(buffer[i]);
             }
         }
         else

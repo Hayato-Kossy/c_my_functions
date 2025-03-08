@@ -9,6 +9,6 @@ int main()
   my_puts("Hello, world!\n");
   my_puts("こんにちは!\n");
   my_printf("Hello, %s!\n", "Alice");
-  my_printf("アホ%dドジ", 12);
+  my_printf("%d", 12);
   return 0;
 }
