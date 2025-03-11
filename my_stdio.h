@@ -4,5 +4,6 @@
 int my_putchar(char c);
 int my_puts(char *s);
 int my_printf(const char *format, ...);
-int my_get_char(void);
+int my_getchar(void);
+int my_scanf(const char *format, ...);
 #endif // MY_STDIO_H
